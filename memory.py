@@ -15,11 +15,13 @@ from turtle import *
 from freegames import path
 
 car = path('car.gif')
-tiles = list(range(32)) * 2
-state = {'mark': None}
-hide = [True] * 64
+# Letras que representan cada pareja (16 parejas, una letra por pareja)
+LETTERS = 'ABCDEFGHIJKLMNOP'
+tiles = list(range(16)) * 2 # Valores de las fichas: 16 números, cada uno repetido dos veces (32 fichas)
+hide = [True] * 32 # True = ficha oculta, False = ficha destapada (una por cada ficha)
+# mark: índice de la primera ficha destapada en este turno (None si no hay)
+# taps: número de clics que ha hecho el jugador
 state = {'mark': None, 'taps': 0}
-
 
 def square(x, y):
     """Draw white square with black outline at (x, y)."""
@@ -54,6 +56,11 @@ def tap(x, y):
     print('Taps:', state['taps'])  # Imprime el contador de taps en la consola
 
     spot = index(x, y)
+        # Si el clic cayó fuera del tablero, no hace nada
+
+    if spot >=len(hide):
+        return
+
     mark = state['mark']
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
@@ -71,19 +78,20 @@ def draw():
     shape(car)
     stamp()
 
-    for count in range(64):
+    for count in range(32):
         if hide[count]:
             x, y = xy(count)
             square(x, y)
 
     mark = state['mark']
-
+   
+   # Muestra la letra de la ficha marcada, si todavía está oculta
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
         goto(x + 25, y + 5)
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'), align='center')
+        write(LETTERS[tiles[mark]], font=('Arial', 30, 'bold'), align='center')
 
 #Dibuja el numero de taps
     up()
