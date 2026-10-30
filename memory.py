@@ -97,7 +97,7 @@ def draw():
         up()
         goto(0, -190)
         color('black')
-        write('¡Completado en ' + str(state['taps']) + ' taps!',
+        write('¡Completed in ' + str(state['taps']) + ' taps!',
               align='center', font=('Arial', 16, 'normal'))
     update()
     ontimer(draw, 100)
