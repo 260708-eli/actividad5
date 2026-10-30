@@ -43,6 +43,10 @@ def xy(count):
     """Convert tiles count to (x, y) coordinates."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
+def finished():
+    # Devuelve True cuando todos los cuadros están destapados.
+    # Si la lista hide ya no tiene ningún True, el juego terminó.
+    return not any(hide)
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
@@ -86,7 +90,15 @@ def draw():
     goto(-200, 180)
     color('black')
     write(f"Taps: {state['taps']}", font=('Arial', 15, 'normal'))
+       
+  # Muestra un mensaje cuando todos los cuadros están destapados
 
+    if finished():
+        up()
+        goto(0, -190)
+        color('black')
+        write('¡Completado en ' + str(state['taps']) + ' taps!',
+              align='center', font=('Arial', 16, 'normal'))
     update()
     ontimer(draw, 100)
 
